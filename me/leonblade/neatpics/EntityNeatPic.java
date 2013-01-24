@@ -61,7 +61,30 @@ public class EntityNeatPic extends EntityHanging implements IEntityAdditionalSpa
 	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9) 
 	{
-		
+		/*
+		this.setPosition(par1, par3, par5);
+        this.setRotation(par7, par8);
+        List var10 = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.contract(0.03125D, 0.0D, 0.03125D));
+
+        if (!var10.isEmpty())
+        {
+            double var11 = 0.0D;
+
+            for (int var13 = 0; var13 < var10.size(); ++var13)
+            {
+                AxisAlignedBB var14 = (AxisAlignedBB)var10.get(var13);
+
+                if (var14.maxY > var11)
+                {
+                    var11 = var14.maxY;
+                }
+            }
+
+            // System.out.println(par3+"-"+this.yPosition);
+            par3 += var11 - this.boundingBox.minY;
+            this.setPosition(par1, par3, par5);
+        }
+        */
 	}
 	
 	public void openGui()
@@ -125,13 +148,13 @@ public class EntityNeatPic extends EntityHanging implements IEntityAdditionalSpa
 	@Override
 	public int func_82329_d() 
 	{
-		return (this.imageWidth * 16) - 1;
+		return this.imageWidth * 16;
 	}
 
 	@Override
 	public int func_82330_g() 
 	{
-		return (this.imageHeight * 16);
+		return this.imageHeight * 16;
 	}
 
 	@Override

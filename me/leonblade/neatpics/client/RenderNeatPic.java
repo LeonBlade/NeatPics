@@ -134,13 +134,12 @@ public class RenderNeatPic extends Render
 		else
 		{			
 			GL11.glPushMatrix();
-	        GL11.glTranslated(x, y + 1, z);
+	        GL11.glTranslated(x, y, z);
 	        GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
 	        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 	        GL11.glEnable(GL11.GL_LIGHTING);
 	
-	        //float var11 = 0.0625F;
-	        float var11 = 0.035f;
+	        float var11 = 0.0625F;
 	        GL11.glScalef(var11, var11, var11);
 	        
 	        tessellator.startDrawing(GL11.GL_QUADS);
