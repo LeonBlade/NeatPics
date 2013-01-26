@@ -51,32 +51,53 @@ public class RenderNeatPic extends Render
 	
 	public void renderPic(EntityNeatPic entity, double x, double y, double z, float rotation, float k) 
 	{	
+		// setting proper lighting
+		// round down the coords
+		int fX = MathHelper.floor_double(entity.posX);
+        int fY = MathHelper.floor_double(entity.posY + (double)(y / 16.0F));
+        int fZ = MathHelper.floor_double(entity.posZ);
+		
 		if (entity.hangingDirection == 2)
         {
             x -= 0.5 * entity.imageWidth;
             z += 0.025;
+            fX = MathHelper.floor_double(entity.posX + (double)(x / 16.0F));
         }
 
         if (entity.hangingDirection == 1)
         {
             z += 0.5 * entity.imageWidth;
             x += 0.025;
+            fZ = MathHelper.floor_double(entity.posZ - (double)(x / 16.0F));
         }
 
         if (entity.hangingDirection == 0)
         {
         	x += 0.5 * entity.imageWidth;
         	z -= 0.025;
+        	fX = MathHelper.floor_double(entity.posX - (double)(x / 16.0F));
         }
 
         if (entity.hangingDirection == 3)
         {
         	z -= 0.5 * entity.imageWidth;
         	x -= 0.025;
+        	fZ = MathHelper.floor_double(entity.posZ + (double)(x / 16.0F));
         }
         
         y -= 0.5 * entity.imageHeight;
         
+        // get the proper light value
+        int light = this.renderManager.worldObj.getLightBrightnessForSkyBlocks(fX, fY, fZ, 0);
+        // get the x bit
+        int lightX = light % 65536;
+        // get the y bit
+        int lightY = light / 65536;
+        // set the lightmap texture coords
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)lightX, (float)lightY);
+        // ensure gl color is white
+        GL11.glColor3f(1.0F, 1.0F, 1.0F);
+
         Tessellator tessellator = Tessellator.instance;
 		
 		if (!this.loadDownloadableImageTexture(entity.textureUrl, null))
@@ -132,7 +153,7 @@ public class RenderNeatPic extends Render
 	        GL11.glPopMatrix();
 		}
 		else
-		{			
+		{				
 			GL11.glPushMatrix();
 	        GL11.glTranslated(x, y, z);
 	        GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
