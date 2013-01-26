@@ -261,17 +261,16 @@ public class GuiNeatPic extends GuiScreen
 			button.enabled = false;
 		}
 		
+		// try and read the width
+		try 
+		{
+			this.sizeBlocksX = (this.widthField.getText().isEmpty()) ? 1 : Integer.parseInt(this.widthField.getText());
+		}
+		catch (NumberFormatException e) { this.sizeBlocksX = 0; }
+		
 		// take the blocks from width and change the height according to the ratio
 		if (!this.heightFieldEnabled)
 		{
-			try 
-			{
-				this.sizeBlocksX = (this.widthField.getText().isEmpty()) ? 1 : Integer.parseInt(this.widthField.getText());
-			}
-			catch (NumberFormatException e)
-			{
-				this.sizeBlocksX = 0;
-			}
 			this.sizeBlocksY = (int)(((double)this.yRatio / (double)this.xRatio) * this.sizeBlocksX);
 			if (this.sizeBlocksY == 0) this.sizeBlocksY = 1;
 			
@@ -283,7 +282,7 @@ public class GuiNeatPic extends GuiScreen
 			{
 				this.sizeBlocksY = Integer.parseInt(this.heightField.getText());
 			}
-			catch (NumberFormatException e) {}
+			catch (NumberFormatException e) { this.sizeBlocksY = 0; }
 		}
 		
 		this.urlField.updateCursorCounter();
